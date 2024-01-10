@@ -63,7 +63,6 @@ class DepositsThread extends Thread {
 				e.printStackTrace();
 			}
 		}
-
 	}
 }
 
@@ -89,7 +88,6 @@ class WithDrawsThread extends Thread {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
 		}
 
 		try {
@@ -105,15 +103,15 @@ public class Exercise_03 {
 	public static void main(String[] args) throws InterruptedException {
 		BankAccount account = new BankAccount();
 
-		Thread thread1 = new DepositsThread(account);
-		Thread thread2 = new WithDrawsThread(account);
+		Thread deposit1 = new DepositsThread(account);
+		Thread withdraw1 = new WithDrawsThread(account);
 
-		thread1.start();
-		thread2.start();
+		deposit1.start();
+		withdraw1.start();
 
 		try {
-			thread1.join();
-			thread2.join();
+			deposit1.join();
+			withdraw1.join();
 		} catch (InterruptedException e) {
 			// TODO: handle exception
 			e.printStackTrace();
