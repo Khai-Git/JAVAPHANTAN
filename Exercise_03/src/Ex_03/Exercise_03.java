@@ -5,12 +5,17 @@ import java.util.concurrent.locks.ReentrantLock;
 
 class BankAccount {
 	private int balance = 0;
+	private int insuranceLimit = 100000;
 	private Lock lock = new ReentrantLock();
 
-	public void deposits(int n) {
+	public void deposits(int n) throws InterruptedException {
 		lock.lock();
 
 		try {
+			while (balance + n > insuranceLimit) {
+				System.out.println("Deposit is limited, need to Withdraw. Balance: " + balance);
+				lock.wait();
+			}
 			balance += n;
 			System.out.println("Deposit: " + n + ", Balance: " + balance);
 		} finally {
@@ -18,10 +23,14 @@ class BankAccount {
 		}
 	}
 
-	public void withdraws(int n) {
+	public void withdraws(int n) throws InterruptedException {
 		lock.lock();
 
 		try {
+			while (balance - n < 0) {
+				System.out.println("Balance now is: " + balance + ", can't Withdraw need to Deposit");
+				lock.wait();
+			}
 			balance -= n;
 			System.out.println("Withdraw: " + n + ", Balance: " + balance);
 		} finally {
@@ -39,14 +48,22 @@ class DepositsThread extends Thread {
 	}
 
 	public synchronized void run() {
-		account.deposits(100);
+		for (int i = 0; i < 5; i++) {
+			try {
+				account.deposits(100);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+
 	}
 }
 
@@ -59,7 +76,21 @@ class WithDrawsThread extends Thread {
 	}
 
 	public synchronized void run() {
-		account.withdraws(100);
+		for (int i = 0; i < 5; i++) {
+			try {
+				account.withdraws(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+		}
 
 		try {
 			Thread.sleep(100);
@@ -74,13 +105,18 @@ public class Exercise_03 {
 	public static void main(String[] args) throws InterruptedException {
 		BankAccount account = new BankAccount();
 
-		for (int i = 0; i < 5; i++) {
-			new DepositsThread(account).start();
-			Thread.sleep(1000);
-		}
-		for (int i = 0; i < 5; i++) {
-			new WithDrawsThread(account).start();
-			Thread.sleep(1000);
+		Thread thread1 = new DepositsThread(account);
+		Thread thread2 = new WithDrawsThread(account);
+
+		thread1.start();
+		thread2.start();
+
+		try {
+			thread1.join();
+			thread2.join();
+		} catch (InterruptedException e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 }
