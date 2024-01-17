@@ -17,6 +17,8 @@ public class FileCopyGUI extends JFrame {
         setSize(400, 150);
         setLayout(new FlowLayout());
 
+        
+        
         progressBar = new JProgressBar(0, 100);
         progressBar.setStringPainted(true);
 
