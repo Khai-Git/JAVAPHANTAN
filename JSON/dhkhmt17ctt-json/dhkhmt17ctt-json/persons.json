@@ -1,1 +1,1 @@
-[{"firstName":"John","age":25,"address":{"city":"Cityville","state":"CA"}},{"firstName":"Alice","age":30}]
+[{"firstName":"John","lastName":"Doe","age":25,"address":{"city":"Cityville","state":"CA"}},{"firstName":"Alice","lastName":"Smith","age":30}]
