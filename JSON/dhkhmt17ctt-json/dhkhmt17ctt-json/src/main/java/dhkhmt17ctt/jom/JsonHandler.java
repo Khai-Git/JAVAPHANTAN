@@ -136,8 +136,10 @@ public class JsonHandler {
 				Address add = p.getAddress();
 				JsonObject joAdd = null;
 				if (add != null) {
-					joAdd = oBuilder.add("city", add.getCity())
+					joAdd = oBuilder.add("streetAddress", add.getStreetAddress())
+							.add("city", add.getCity())
 							.add("state", add.getState())
+							.add("postalCode", add.getPostalCode())
 							.build();
 				}
 				oBuilder.add("firstName", p.getFirstName())

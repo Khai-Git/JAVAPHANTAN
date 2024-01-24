@@ -1,1 +1,1 @@
-[{"firstName":"John","lastName":"Doe","age":25,"address":{"city":"Cityville","state":"CA"}},{"firstName":"Alice","lastName":"Smith","age":30}]
+[{"firstName":"John","lastName":"Doe","age":25,"address":{"streetAddress":"123 Main Street","city":"Cityville","state":"CA","postalCode":12345}},{"firstName":"Alice","lastName":"Smith","age":30}]
