@@ -12,7 +12,7 @@ public class Client {
 	public static void main(String[] args) {
 		
 		
-		try (Socket client = new Socket("H31M44", 1234);
+		try (Socket client = new Socket("DESKTOP-I3PL0UP", 1111);
 				
 				Scanner sc = new Scanner(System.in);
 				){
